@@ -1,0 +1,96 @@
+/* Estilos específicos para autenticación */
+body.auth-page {
+    background: linear-gradient(135deg, #0056b3 0%, #003366 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px; /* Añadido para espacio en móviles */
+}
+
+.auth-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px; /* Aumentado ligeramente el ancho máximo */
+    padding: 1.5rem; /* Reducido el padding */
+    margin: 1rem;
+    max-height: 95vh; /* Limitar altura máxima */
+    overflow-y: auto; /* Scroll interno si es necesario */
+}
+
+.auth-form {
+    padding: 0.5rem; /* Reducido el padding interno */
+}
+
+/* Reducir márgenes entre elementos */
+.auth-form .mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+/* Hacer los inputs más compactos */
+.auth-form .form-control {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-form .form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Ajustar tamaño de los botones */
+.auth-form .btn {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+}
+
+/* Texto más pequeño para términos */
+.auth-form .form-check-label {
+    font-size: 0.85rem;
+}
+
+/* Ajustar el modal de términos */
+#termsModal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+/* Scroll personalizado para el contenedor */
+.auth-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.auth-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.auth-container::-webkit-scrollbar-thumb {
+    background: #0056b3;
+    border-radius: 10px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 1.2rem;
+        max-height: 90vh;
+    }
+    
+    .auth-header i {
+        font-size: 2.2rem;
+    }
+    
+    .auth-form .row > div {
+        padding-bottom: 0.5rem;
+    }
+    
+    body.auth-page {
+        padding: 10px;
+        align-items: flex-start; /* Alinear arriba en móviles */
+    }
+}

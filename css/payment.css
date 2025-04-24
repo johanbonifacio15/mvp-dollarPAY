@@ -1,0 +1,125 @@
+/* Estilos específicos para la página de pagos en dólares */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+}
+
+.payment-card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.payment-card .card-header {
+    background-color: #0056b3;
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 1.25rem 1.5rem;
+}
+
+.exchange-rate-info {
+    background-color: #f1f8ff;
+    border-left: 4px solid #0056b3;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+}
+
+.exchange-rate-info strong {
+    color: #0056b3;
+    font-size: 1.1rem;
+}
+
+/* Estilos para la sección de tasas de interés */
+.interest-rate-info {
+    background-color: #fff8e6;
+    border-left: 4px solid #ffc107;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.interest-rate-info strong {
+    color: #d39e00;
+    font-size: 1.1rem;
+}
+
+.rate-history-chart {
+    height: 200px;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 1rem;
+    position: relative;
+}
+
+.rate-history-chart::before {
+    content: "Gráfico de variación (simulado)";
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.payment-submit-btn {
+    padding: 0.75rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.payment-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+}
+
+.success-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.confirmation-details {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-weight: 600;
+}
+
+/* Estilos para la tabla de historial */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 86, 179, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .payment-card .card-header {
+        padding: 1rem;
+    }
+    
+    .detail-item {
+        flex-direction: column;
+    }
+    
+    .detail-value {
+        margin-top: 0.25rem;
+    }
+}
