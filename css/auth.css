@@ -1,4 +1,4 @@
-/* Estilos específicos para autenticación */
+/* Estilos para autenticación (login y registro) */
 body.auth-page {
     background: linear-gradient(135deg, #0056b3 0%, #003366 100%);
     height: 100vh;
@@ -6,7 +6,7 @@ body.auth-page {
     align-items: center;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
-    padding: 20px; /* Añadido para espacio en móviles */
+    padding: 20px; 
 }
 
 .auth-container {
@@ -14,23 +14,21 @@ body.auth-page {
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 500px; /* Aumentado ligeramente el ancho máximo */
-    padding: 1.5rem; /* Reducido el padding */
+    max-width: 500px; 
+    padding: 1.5rem; 
     margin: 1rem;
-    max-height: 95vh; /* Limitar altura máxima */
-    overflow-y: auto; /* Scroll interno si es necesario */
+    max-height: 95vh; 
+    overflow-y: auto; 
 }
 
 .auth-form {
-    padding: 0.5rem; /* Reducido el padding interno */
+    padding: 0.5rem; 
 }
 
-/* Reducir márgenes entre elementos */
 .auth-form .mb-3 {
     margin-bottom: 1rem !important;
 }
 
-/* Hacer los inputs más compactos */
 .auth-form .form-control {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
@@ -41,25 +39,21 @@ body.auth-page {
     margin-bottom: 0.3rem;
 }
 
-/* Ajustar tamaño de los botones */
 .auth-form .btn {
     padding: 0.65rem;
     font-size: 0.95rem;
 }
 
-/* Texto más pequeño para términos */
 .auth-form .form-check-label {
     font-size: 0.85rem;
 }
 
-/* Ajustar el modal de términos */
 #termsModal .modal-body {
     max-height: 60vh;
     overflow-y: auto;
     font-size: 0.9rem;
 }
 
-/* Scroll personalizado para el contenedor */
 .auth-container::-webkit-scrollbar {
     width: 6px;
 }
@@ -74,7 +68,6 @@ body.auth-page {
     border-radius: 10px;
 }
 
-/* Responsive para móviles */
 @media (max-width: 576px) {
     .auth-container {
         padding: 1.2rem;
@@ -91,6 +84,6 @@ body.auth-page {
     
     body.auth-page {
         padding: 10px;
-        align-items: flex-start; /* Alinear arriba en móviles */
+        align-items: flex-start; 
     }
 }

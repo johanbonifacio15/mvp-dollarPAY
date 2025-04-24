@@ -8,7 +8,6 @@ body {
     font-weight: 700;
 }
 
-/* Cards */
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -21,7 +20,6 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Foto de perfil */
 .card-body .rounded-circle {
     width: 100px;
     height: 100px;
@@ -32,7 +30,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Botones */
 .btn-primary {
     background-color: #0056b3;
     border-color: #0056b3;
@@ -43,7 +40,6 @@ body {
     border-color: #004494;
 }
 
-/* Hero section */
 .hero-section {
     background: linear-gradient(135deg, #0056b3 0%, #003366 100%);
     color: white;
@@ -52,20 +48,17 @@ body {
     margin-top: -1px;
 }
 
-/* Iconos */
 .feature-icon {
     font-size: 2.5rem;
     color: #0056b3;
     margin-bottom: 1rem;
 }
 
-/* Inputs */
 .form-control:focus, .form-select:focus {
     border-color: #0056b3;
     box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.25);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .hero-section {
         padding: 2rem 0;

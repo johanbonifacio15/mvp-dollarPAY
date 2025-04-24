@@ -1,4 +1,4 @@
-/* Estilos específicos para la página de pagos en dólares */
+/* Estilos para la pag de pagos en dólares */
 body {
     background-color: #f8f9fa;
     font-family: 'Roboto', sans-serif;
@@ -29,7 +29,6 @@ body {
     font-size: 1.1rem;
 }
 
-/* Estilos para la sección de tasas de interés */
 .interest-rate-info {
     background-color: #fff8e6;
     border-left: 4px solid #ffc107;
@@ -104,12 +103,10 @@ body {
     font-weight: 600;
 }
 
-/* Estilos para la tabla de historial */
 .table-hover tbody tr:hover {
     background-color: rgba(0, 86, 179, 0.05);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .payment-card .card-header {
         padding: 1rem;
