@@ -7,39 +7,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const exchangeRateTimeElement = document.getElementById('exchangeRateTime');
     const interestRateElement = document.getElementById('currentInterestRate');
     const paymentHistory = document.getElementById('paymentHistory');
-    const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-
-    // Variables globales con valores por defecto para RD
-    let currentExchangeRate = 56.50;
-    let currentInterestRate = 6.50; // Tasa promedio para RD
     
-    // Historial de pagos de ejemplo
+    let confirmationModal;
+    const modalElement = document.getElementById('confirmationModal');
+    if (modalElement) {
+        confirmationModal = new bootstrap.Modal(modalElement);
+    }
+
+    let currentExchangeRate = 56.50;
+    let currentInterestRate = 6.50;
+    
     const samplePayments = [
         { date: '15/06/2023', destination: 'Visa Platinum', amount: 150.00, status: 'Completado' },
         { date: '10/06/2023', destination: 'Amazon Prime', amount: 12.99, status: 'Completado' },
         { date: '01/06/2023', destination: 'Netflix', amount: 10.99, status: 'Completado' }
     ];
 
-    // Obtener tipo de cambio de API pública
     async function fetchExchangeRate() {
         try {
             const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
             const data = await response.json();
-            return data.rates.DOP || 56.50; // Fallback para RD
+            return data.rates.DOP || 56.50;
         } catch (error) {
-            console.log('Usando valor por defecto para tasa de cambio');
+            console.log('Using default exchange rate');
             return 56.50;
         }
     }
 
-    // Generar tasa de interés realista para RD
     function getDominicanInterestRate() {
-        // Simular pequeña variación (±0.15%)
         const variation = (Math.random() * 0.3 - 0.15);
         return Math.max(6.0, Math.min(7.0, currentInterestRate + variation));
     }
 
-    // Actualizar datos financieros
     async function updateFinancialData() {
         const now = new Date();
         const timeString = now.toLocaleTimeString('es-DO', { 
@@ -47,35 +46,32 @@ document.addEventListener('DOMContentLoaded', function() {
             minute: '2-digit'
         });
 
-        // Obtener y actualizar tasas
-        currentExchangeRate = await fetchExchangeRate();
-        currentInterestRate = getDominicanInterestRate();
+        try {
+            currentExchangeRate = await fetchExchangeRate();
+            currentInterestRate = getDominicanInterestRate();
 
-        // Actualizar UI
-        exchangeRateElement.textContent = `1 USD = ${currentExchangeRate.toFixed(2)} DOP`;
-        exchangeRateTimeElement.textContent = `Actualizado hoy, ${timeString}`;
-        interestRateElement.textContent = `${currentInterestRate.toFixed(2)}%`;
+            if(exchangeRateElement) exchangeRateElement.textContent = `1 USD = ${currentExchangeRate.toFixed(2)} DOP`;
+            if(exchangeRateTimeElement) exchangeRateTimeElement.textContent = `Actualizado hoy, ${timeString}`;
+            if(interestRateElement) interestRateElement.textContent = `${currentInterestRate.toFixed(2)}%`;
 
-        // Recalcular si hay montos ingresados
-        if (amountUSD.value) calculateDOPEquivalent();
+            if(amountUSD.value) calculateDOPEquivalent();
+        } catch(error) {
+            console.error('Error updating rates:', error);
+            if(exchangeRateElement) exchangeRateElement.textContent = `1 USD = 56.50 DOP`;
+            if(exchangeRateTimeElement) exchangeRateTimeElement.textContent = `Actualizado hoy, ${timeString}`;
+            if(interestRateElement) interestRateElement.textContent = `6.50%`;
+        }
     }
 
-    // Calcular equivalente en DOP con interés
     function calculateDOPEquivalent() {
         if (amountUSD.value && !isNaN(amountUSD.value)) {
             const usdAmount = parseFloat(amountUSD.value);
             const paymentType = document.getElementById('paymentType').value;
-            
-            // Aplicar interés solo para tarjetas de crédito
-            const interestApplied = paymentType === 'credit-card' ? 
-                usdAmount * (currentInterestRate / 100) : 0;
-            
+            const interestApplied = paymentType === 'credit-card' ? usdAmount * (currentInterestRate / 100) : 0;
             const totalUSD = usdAmount + interestApplied;
             const dopAmount = totalUSD * currentExchangeRate;
             
             amountDOP.value = dopAmount.toFixed(2);
-            
-            // Mostrar desglose de intereses si aplica
             updateInterestBreakdown(usdAmount, interestApplied, totalUSD);
         } else {
             amountDOP.value = '';
@@ -83,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Mostrar desglose de intereses
     function updateInterestBreakdown(principal, interest, total) {
         let breakdown = document.getElementById('interestBreakdown');
         
@@ -108,13 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function clearInterestBreakdown() {
-        const breakdown = document.getElementById('interestBreakdown');
-        if (breakdown) breakdown.remove();
-    }
-
-    // Cargar historial de pagos
     function loadPaymentHistory() {
+        if(!paymentHistory) return;
         paymentHistory.innerHTML = '';
         
         samplePayments.forEach(payment => {
@@ -129,22 +119,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mostrar confirmación de pago
     function showConfirmation() {
-        const beneficiary = document.getElementById('beneficiary').value;
-        const usdAmount = amountUSD.value;
-        const dopAmount = amountDOP.value;
-        const paymentType = document.getElementById('paymentType').options[document.getElementById('paymentType').selectedIndex].text;
-        const now = new Date();
+        const beneficiary = document.getElementById('beneficiary')?.value || '';
+        const usdAmount = amountUSD.value || '0';
+        const dopAmount = amountDOP.value || '0';
+        const paymentTypeSelect = document.getElementById('paymentType');
+        const paymentType = paymentTypeSelect ? paymentTypeSelect.options[paymentTypeSelect.selectedIndex]?.text : '';
 
-        // Actualizar modal
-        document.getElementById('confirmationNumber').textContent = 
-            `BP-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
-        
-        document.getElementById('confirmationBeneficiary').textContent = `${paymentType}: ${beneficiary}`;
-        document.getElementById('confirmationAmountUSD').textContent = `$${parseFloat(usdAmount).toFixed(2)}`;
-        document.getElementById('confirmationAmountDOP').textContent = `RD$${parseFloat(dopAmount).toFixed(2)}`;
-        document.getElementById('confirmationDate').textContent = now.toLocaleString('es-DO', { 
+        const now = new Date();
+        const confirmationNumber = `BP-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+
+        if(document.getElementById('confirmationNumber')) document.getElementById('confirmationNumber').textContent = confirmationNumber;
+        if(document.getElementById('confirmationBeneficiary')) document.getElementById('confirmationBeneficiary').textContent = paymentType ? `${paymentType}: ${beneficiary}` : beneficiary;
+        if(document.getElementById('confirmationAmountUSD')) document.getElementById('confirmationAmountUSD').textContent = `$${parseFloat(usdAmount).toFixed(2)}`;
+        if(document.getElementById('confirmationAmountDOP')) document.getElementById('confirmationAmountDOP').textContent = `RD$${parseFloat(dopAmount).toFixed(2)}`;
+        if(document.getElementById('confirmationDate')) document.getElementById('confirmationDate').textContent = now.toLocaleString('es-DO', { 
             day: '2-digit', 
             month: '2-digit', 
             year: 'numeric', 
@@ -152,12 +141,11 @@ document.addEventListener('DOMContentLoaded', function() {
             minute: '2-digit' 
         });
 
-        confirmationModal.show();
-        paymentForm.reset();
-        addToHistory(beneficiary, usdAmount);
+        if(confirmationModal) confirmationModal.show();
+        if(paymentForm) paymentForm.reset();
+        if(beneficiary && usdAmount !== '0') addToHistory(beneficiary, usdAmount);
     }
 
-    // Agregar pago al historial
     function addToHistory(destination, amount) {
         const now = new Date();
         samplePayments.unshift({
@@ -169,12 +157,11 @@ document.addEventListener('DOMContentLoaded', function() {
         loadPaymentHistory();
     }
 
-    // Inicialización
+    // Initialize
     loadPaymentHistory();
     updateFinancialData();
-    setInterval(updateFinancialData, 3600000); // Actualizar cada hora
+    setInterval(updateFinancialData, 3600000);
     
-    // Event listeners
     amountUSD.addEventListener('input', calculateDOPEquivalent);
     document.getElementById('paymentType').addEventListener('change', calculateDOPEquivalent);
     
@@ -183,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (paymentForm.checkValidity()) {
             showConfirmation();
         } else {
-            e.stopPropagation();
             paymentForm.classList.add('was-validated');
         }
     });
